@@ -4,6 +4,7 @@ from vibeguard.tools.zip_tools import extract_zip_safely
 from vibeguard.tools.file_tools import build_file_inventory
 from vibeguard.agents.orchestrator import run_audit
 from vibeguard.reporting.markdown_report import build_markdown_report
+from vibeguard.ai.recommendation_agent import generate_ai_recommendations, gemini_is_configured
 
 
 st.set_page_config(
@@ -96,6 +97,11 @@ with st.sidebar:
 
     st.divider()
 
+    if gemini_is_configured():
+        st.success("Gemini recommendations enabled")
+    else:
+        st.warning("Gemini recommendations not configured")
+
     st.markdown(
         """
         **Demo tip:**  
@@ -128,6 +134,8 @@ if st.button("Run VibeGuard Audit", type="primary", use_container_width=True):
 
         audit_result = run_audit(extract_dir, inventory, options)
         report_md = build_markdown_report(audit_result)
+        st.session_state["audit_result"] = audit_result
+        st.session_state["report_md"] = report_md
 
     st.success("Audit complete.")
 
@@ -162,9 +170,9 @@ if st.button("Run VibeGuard Audit", type="primary", use_container_width=True):
 
     st.divider()
 
-    tab1, tab2, tab3, tab4 = st.tabs(
-        ["Findings", "File Inventory", "Markdown Report", "Submission Help"]
-    )
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
+    ["Findings", "File Inventory", "Markdown Report", "Submission Help", "AI Recommendations"]
+)
 
     with tab1:
         st.header("Detailed Findings")
@@ -238,3 +246,24 @@ if st.button("Run VibeGuard Audit", type="primary", use_container_width=True):
             5. **Technical Concepts**: explain security, deployability, ADK/MCP plan, and agent tools.
             """
         )
+    with tab5:
+        st.header("Gemini-Powered Recommendations")
+
+        st.write(
+            "This optional agent uses Gemini to turn the audit findings into a practical improvement plan, "
+            "Kaggle Writeup outline, and demo video structure."
+        )
+
+        if st.button("Generate AI Recommendations", use_container_width=True):
+            with st.spinner("Generating Gemini recommendations..."):
+                ai_recommendations = generate_ai_recommendations(audit_result)
+
+            st.download_button(
+                label="Download ai_recommendations.md",
+                data=ai_recommendations,
+                file_name="ai_recommendations.md",
+                mime="text/markdown",
+                use_container_width=True,
+            )
+
+            st.markdown(ai_recommendations)
