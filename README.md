@@ -76,6 +76,8 @@ Markdown Report Generator
  |
  v
 Audit Dashboard + Downloadable Report
+
+For a more detailed architecture explanation, see [docs/architecture.md](docs/architecture.md).
 ```
 
 ## Features
