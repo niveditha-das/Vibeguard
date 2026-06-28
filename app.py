@@ -32,7 +32,13 @@ if "inventory" not in st.session_state:
 if "ai_recommendations" not in st.session_state:
     st.session_state["ai_recommendations"] = None
 
+if "active_section" not in st.session_state:
+    st.session_state["active_section"] = "Findings"
 
+
+# -----------------------------
+# Helper functions
+# -----------------------------
 def score_label(score: int) -> str:
     if score >= 85:
         return "Excellent"
@@ -170,6 +176,7 @@ if uploaded_file is not None:
             st.session_state["report_md"] = report_md
             st.session_state["inventory"] = inventory
             st.session_state["ai_recommendations"] = None
+            st.session_state["active_section"] = "Findings"
 
         st.success("Audit complete.")
 
@@ -182,6 +189,7 @@ report_md = st.session_state["report_md"]
 inventory = st.session_state["inventory"]
 
 if audit_result is None or report_md is None or inventory is None:
+    st.info("Upload a ZIP file and click Run VibeGuard Audit to see results.")
     st.stop()
 
 scores = audit_result["scores"]
@@ -215,17 +223,25 @@ s4.metric("Files Scanned", inventory["file_count"])
 
 st.divider()
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
+
+# -----------------------------
+# Persistent section navigation
+# -----------------------------
+section = st.radio(
+    "Choose a section",
     [
         "Findings",
         "File Inventory",
         "Markdown Report",
         "Submission Help",
         "AI Recommendations",
-    ]
+    ],
+    horizontal=True,
+    key="active_section",
 )
 
-with tab1:
+
+if section == "Findings":
     st.header("Detailed Findings")
 
     if not findings:
@@ -249,12 +265,14 @@ with tab1:
             for finding in filtered_findings:
                 render_finding(finding)
 
-with tab2:
+
+elif section == "File Inventory":
     st.header("Project File Inventory")
     st.caption("First 250 files are shown.")
     st.code("\n".join(inventory["relative_files"][:250]), language="text")
 
-with tab3:
+
+elif section == "Markdown Report":
     st.header("Downloadable Audit Report")
 
     st.download_button(
@@ -267,7 +285,8 @@ with tab3:
 
     st.code(report_md, language="markdown")
 
-with tab4:
+
+elif section == "Submission Help":
     st.header("Capstone Submission Guidance")
 
     st.markdown(
@@ -298,7 +317,8 @@ with tab4:
         """
     )
 
-with tab5:
+
+elif section == "AI Recommendations":
     st.header("Gemini-Powered Recommendations")
 
     st.write(
@@ -311,6 +331,8 @@ with tab5:
             st.session_state["ai_recommendations"] = generate_ai_recommendations(
                 st.session_state["audit_result"]
             )
+
+        st.success("AI recommendations generated.")
 
     if st.session_state["ai_recommendations"]:
         st.download_button(
