@@ -8,6 +8,15 @@ The project was built around a simple problem: vibe coding makes it easier to cr
 
 VibeGuard addresses this by letting a user upload a project ZIP file and receive a structured audit report. The report includes category scores, detailed findings, recommendations, a downloadable Markdown report, and optional Gemini-powered improvement guidance.
 
+## Project Links
+
+* GitHub Repository: https://github.com/niveditha-das/Vibeguard
+* Public Demo App: https://vibeguard-niveditha.streamlit.app/
+* Architecture Documentation: https://github.com/niveditha-das/Vibeguard/blob/main/docs/architecture.md
+* Sample Audit Report: https://github.com/niveditha-das/Vibeguard/blob/main/reports/sample_audit_report.md
+* Demo Video Script: https://github.com/niveditha-das/Vibeguard/blob/main/docs/demo_video_script.md
+
+
 ## Problem
 
 AI-assisted development can speed up software creation, but it can also create incomplete or unsafe projects. Developers may forget to check for:

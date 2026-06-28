@@ -4,6 +4,14 @@
 
 VibeGuard helps developers turn fast AI-generated prototypes into secure, documented, deployable, and submission-ready software.
 
+## Project Links
+
+- [Public Demo App](https://vibeguard-niveditha.streamlit.app/)
+- [Architecture Documentation](docs/architecture.md)
+- [Sample Audit Report](reports/sample_audit_report.md)
+- [Demo Video Script](docs/demo_video_script.md)
+- [Kaggle Writeup Draft](docs/kaggle_writeup_draft.md)
+
 ## Problem
 
 Vibe coding allows developers to build applications quickly with AI assistance, but fast AI-generated projects often have serious issues:
