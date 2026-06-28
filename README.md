@@ -11,6 +11,7 @@ VibeGuard helps developers turn fast AI-generated prototypes into secure, docume
 - [Sample Audit Report](reports/sample_audit_report.md)
 - [Demo Video Script](docs/demo_video_script.md)
 - [Kaggle Writeup Draft](docs/kaggle_writeup_draft.md)
+- [Final Submission Checklist](docs/final_submission_checklist.md)
 
 ## Problem
 
